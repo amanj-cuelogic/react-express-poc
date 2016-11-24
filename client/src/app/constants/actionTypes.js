@@ -1,0 +1,1 @@
+export const LOGIN_CLICKED = 'LOGIN_CLICKED';

@@ -7,7 +7,7 @@ module.exports = function(app){
     
     app.post('/api/signup',UserController.PostSignUp);
     
-    app.get('/api/user',UserController.GetUserInfo);
+    app.get('/api/user/:email',UserController.GetUserInfo);
     
     app.post('/api/user',UserController.PostUserInfo);
 };
