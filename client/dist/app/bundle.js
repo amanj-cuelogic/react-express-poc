@@ -48,7 +48,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(/*! whatwg-fetch */1);
-	module.exports = __webpack_require__(/*! /home/amanj/Documents/react-express-poc/client/src/app/index.js */2);
+	module.exports = __webpack_require__(/*! /var/www/html/react-express-poc/client/src/app/index.js */2);
 
 
 /***/ },
@@ -31529,11 +31529,8 @@
 	                email: "amanjuneja5@gmail.com",
 	                password: "123456"
 	            })
-	        }, function (error, meta, body) {
-	            if (error) {
-	                console.log(error);
-	            }
-	            console.log(body);
+	        }).then(function (response) {
+	            console.log(response);
 	        });
 	    };
 	

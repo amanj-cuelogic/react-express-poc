@@ -1,8 +1,13 @@
-import { LOGIN_CLICKED } from "../constants/actionTypes";
+import { LOGIN_CLICKED, AUTH_SUCCESS, AUTH_FAILED, LOGIN_ATTEMPTED } from "../constants/actionTypes";
 import 'whatwg-fetch';
 
 export function loginClicked(payload){
     return dispatch => {
+        
+        dispatch({
+                type : LOGIN_ATTEMPTED
+            });
+        
         fetch(
                     "http://localhost:3000/api/signin",
                     {
@@ -10,16 +15,29 @@ export function loginClicked(payload){
                         headers : {
                             'Content-Type' : 'application/json'
                         },
-                        payload : JSON.stringify({
-                            email : "amanjuneja5@gmail.com",
-                            password : "123456"
+                        body : JSON.stringify({
+                            "email" : payload.email,
+                            "password" : payload.password
                         })
             }).then(function(response){
-                console.log(response);
+                response.json().then(function(data){
+                    if(data.status === true){
+                        dispatch({
+                            type : AUTH_SUCCESS ,
+                            payload : data.user
+                        });                  
+                    }else{
+                        dispatch({
+                            type : AUTH_FAILED ,
+                            payload : data.user
+                        });    
+                    }
+                    
+                });
             });        
     };
     
-    //return { type : LOGIN_CLICKED , payload };
+    //
 }
 
 export function loginAttempted(){

@@ -1,6 +1,7 @@
 import React , { Component } from "react";
 import { render } from "react-dom";
 import { connect } from "react-redux";
+import { browserHistory } from "react-router";
 
 import { SignInForm } from "../components/user/SignInForm";
 
@@ -10,23 +11,29 @@ class SignInPage extends React.Component {
     constructor(){
         super();
         this.state = {
-            email : '',
-            password : ''
-        };
+            email : "",
+            password : ""
+        }
     }
-    handleChange(event){
+    
+    onLoginClicked(){
+        if (this.state.email && this.state.password) {
+            this.props.userLogin(this.state);
+        }
         
-        this.setState({
-                email : event.target.value
-            })
-        
+    }
+    
+    onChangeHandle(field,event){
+        var obj = {};
+        obj[field] = event.target.value;
+        this.setState(obj);
         
     }
     
     render(){
         return (
             <div className="container">
-                <SignInForm changeHandler={this.handleChange.bind(this)} clickedLogin = { () => this.props.userLogin("ama")} />
+                <SignInForm changeHandler={this.onChangeHandle.bind(this)} clickedLogin = {this.onLoginClicked.bind(this)} />
             </div>    
         );
     }

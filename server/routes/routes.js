@@ -1,7 +1,7 @@
-var User = require("../models/user.model");
-var UserController = require("../controllers/user.controller")(User);
-
-module.exports = function(app){
+import UserModel from "../models/user.model";
+import UserCtrl  from "../controllers/user.controller";
+const UserController = UserCtrl(UserModel);
+export default (app) => {
     
     app.post('/api/signin',UserController.PostSignIn);
     

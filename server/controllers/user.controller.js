@@ -1,17 +1,17 @@
 
-var UserCtrl = function(User){
+const UserCtrl = User => {
     
-    var UserObj = {};
+    const UserObj = {};
     
-    UserObj.PostSignIn = function(req,res){
+    UserObj.PostSignIn = (req, res) => {
         
-        User.findOne({email:req.body.email,password:req.body.password},function(err,user){
+        User.findOne({email:req.body.email,password:req.body.password},(err, user) => {
             if(err){
                 res.json({status : false, error : err.message});
                 return;        
             }
             if (user) {
-                res.json({status : true, user : user});
+                res.json({status : true, user});
                 return;    
             }
             res.json({status : false, user : "Invalid user credentials "});
@@ -19,9 +19,9 @@ var UserCtrl = function(User){
         });      
     };
     
-    UserObj.PostSignUp = function(req,res){
+    UserObj.PostSignUp = (req, res) => {
         
-        User.findOne({email : req.body.email},function(err,user){
+        User.findOne({email : req.body.email},(err, user) => {
             if(err){
                     res.json({status : false, error : err.message});
                     return;
@@ -30,27 +30,27 @@ var UserCtrl = function(User){
                 res.json({status : false, error : "User already exists"});
                 return;
             }else{
-                var newUser = new User(req.body);
-                newUser.save(function(err,user){
+                const newUser = new User(req.body);
+                newUser.save((err, user) => {
                     if (err) {
                         res.json({status : false, error : err.message});
                         return;
                     }
-                    res.json({status  : true, user : user});
+                    res.json({status  : true, user});
                 });       
             }
         });
         
     };
     
-    UserObj.GetUserInfo = function(req,res){
-        User.findOne({ email:req.params.email },function(err,user){
+    UserObj.GetUserInfo = (req, res) => {
+        User.findOne({ email:req.params.email },(err, user) => {
             if(err){
                 res.json({status : false, error : err.message});
                 return;
             }
             if (user) {
-                res.json({status : true, user : user});
+                res.json({status : true, user});
                 return;    
             }
             res.json({status : false, user : "User does not exist"});
@@ -59,15 +59,15 @@ var UserCtrl = function(User){
         });
     };
     
-    UserObj.PostUserInfo = function(req,res){
+    UserObj.PostUserInfo = (req, res) => {
         
-        User.findOneAndUpdate({email:req.body.email},req.body,{new:true},function(err,user){
+        User.findOneAndUpdate({email:req.body.email},req.body,{new:true},(err, user) => {
             if(err){
                 res.json({status : false, error : err.message});
                 return;        
             }
             if (user) {
-                res.json({status : true, user : user});
+                res.json({status : true, user});
                 return;    
             }
             res.json({status : false, user : "User does not exist"});
@@ -78,4 +78,4 @@ var UserCtrl = function(User){
     return UserObj;
 };
 
-module.exports = UserCtrl;
+export default UserCtrl;
