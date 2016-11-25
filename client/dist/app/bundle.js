@@ -23350,7 +23350,7 @@
 	var _LoginReducer = __webpack_require__(/*! ./LoginReducer */ 213);
 	
 	var RootReducer = (0, _redux.combineReducers)({
-	   userInfo: _LoginReducer.userInfo
+	   user: _LoginReducer.userInfo
 	});
 	
 	exports.default = RootReducer;
@@ -24471,7 +24471,11 @@
 	    isLoggedIn: false,
 	    fetchingUserDetails: false,
 	    userObject: null,
-	    error: null
+	    error: null,
+	    login_info: {
+	        email: "amanjuneja5@gmail.com",
+	        password: "1234567"
+	    }
 	};
 	
 	function userInfo() {
@@ -24479,9 +24483,9 @@
 	    var action = arguments[1];
 	
 	    switch (action.type) {
-	        case _actionTypes.CLICKED_LOGIN:
+	        case _actionTypes.LOGIN_CLICKED:
 	            return Object.assign({}, state, {
-	                fetchingUpdate: true
+	                fetchingUserDetails: true
 	            });
 	        default:
 	            return state;
@@ -30908,9 +30912,11 @@
 	
 	var _reactDom = __webpack_require__(/*! react-dom */ 32);
 	
+	var _reactRedux = __webpack_require__(/*! react-redux */ 215);
+	
 	var _SignInForm = __webpack_require__(/*! ../components/user/SignInForm */ 293);
 	
-	var _SignInForm2 = _interopRequireDefault(_SignInForm);
+	var _UserAction = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../action/UserAction.js\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 	
 	function _interopRequireDefault(obj) {
 	    return obj && obj.__esModule ? obj : { default: obj };
@@ -30940,20 +30946,54 @@
 	    function SignInPage() {
 	        _classCallCheck(this, SignInPage);
 	
-	        return _possibleConstructorReturn(this, (SignInPage.__proto__ || Object.getPrototypeOf(SignInPage)).call(this));
+	        var _this = _possibleConstructorReturn(this, (SignInPage.__proto__ || Object.getPrototypeOf(SignInPage)).call(this));
+	
+	        _this.state = {
+	            email: '',
+	            password: ''
+	        };
+	        return _this;
 	    }
 	
 	    _createClass(SignInPage, [{
+	        key: "handleChange",
+	        value: function handleChange(event) {
+	
+	            this.setState({
+	                email: event.target.value
+	            });
+	
+	            console.log(this.state);
+	        }
+	    }, {
 	        key: "render",
 	        value: function render() {
-	            return _react2.default.createElement("div", { className: "container" }, _react2.default.createElement(_SignInForm2.default, null));
+	            var _this2 = this;
+	
+	            return _react2.default.createElement("div", { className: "container" }, _react2.default.createElement(_SignInForm.SignInForm, { changeHandler: this.handleChange.bind(this), clickedLogin: function clickedLogin() {
+	                    return _this2.props.userLogin("ama");
+	                } }));
 	        }
 	    }]);
 	
 	    return SignInPage;
 	}(_react2.default.Component);
 	
-	exports.default = SignInPage;
+	var mapStateToProps = function mapStateToProps(state) {
+	    return {
+	        user: state.user
+	    };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	    return {
+	        userLogin: function userLogin(email) {
+	            dispatch((0, _UserAction.loginClicked)(email));
+	        }
+	    };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SignInPage);
 
 /***/ },
 /* 293 */
@@ -30964,21 +31004,10 @@
 
 	"use strict";
 	
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-	
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
-	
-	var _createClass = function () {
-	    function defineProperties(target, props) {
-	        for (var i = 0; i < props.length; i++) {
-	            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-	        }
-	    }return function (Constructor, protoProps, staticProps) {
-	        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-	    };
-	}();
+	exports.SignInForm = undefined;
 	
 	var _react = __webpack_require__(/*! react */ 1);
 	
@@ -30987,47 +31016,12 @@
 	var _reactDom = __webpack_require__(/*! react-dom */ 32);
 	
 	function _interopRequireDefault(obj) {
-	    return obj && obj.__esModule ? obj : { default: obj };
+	  return obj && obj.__esModule ? obj : { default: obj };
 	}
 	
-	function _classCallCheck(instance, Constructor) {
-	    if (!(instance instanceof Constructor)) {
-	        throw new TypeError("Cannot call a class as a function");
-	    }
-	}
-	
-	function _possibleConstructorReturn(self, call) {
-	    if (!self) {
-	        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-	    }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-	}
-	
-	function _inherits(subClass, superClass) {
-	    if (typeof superClass !== "function" && superClass !== null) {
-	        throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
-	    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-	}
-	
-	var SignInForm = function (_React$Component) {
-	    _inherits(SignInForm, _React$Component);
-	
-	    function SignInForm() {
-	        _classCallCheck(this, SignInForm);
-	
-	        return _possibleConstructorReturn(this, (SignInForm.__proto__ || Object.getPrototypeOf(SignInForm)).apply(this, arguments));
-	    }
-	
-	    _createClass(SignInForm, [{
-	        key: "render",
-	        value: function render() {
-	            return _react2.default.createElement("form", null, _react2.default.createElement("div", { className: "form-group" }, _react2.default.createElement("label", { "for": "exampleInputEmail1" }, "Email address"), _react2.default.createElement("input", { type: "email", className: "form-control", id: "exampleInputEmail1", placeholder: "Email" })), _react2.default.createElement("div", { className: "form-group" }, _react2.default.createElement("label", { "for": "exampleInputPassword1" }, "Password"), _react2.default.createElement("input", { type: "password", className: "form-control", id: "exampleInputPassword1", placeholder: "Password" })), _react2.default.createElement("button", { type: "submit", className: "btn btn-default" }, "Submit"));
-	        }
-	    }]);
-	
-	    return SignInForm;
-	}(_react2.default.Component);
-	
-	exports.default = SignInForm;
+	var SignInForm = exports.SignInForm = function SignInForm(props) {
+	  return _react2.default.createElement("form", { action: "#" }, _react2.default.createElement("div", { className: "form-group" }, _react2.default.createElement("label", { "for": "exampleInputEmail1" }, "Email address"), _react2.default.createElement("input", { onChange: props.changeHandler.bind(undefined), type: "email", name: "email", className: "form-control", id: "exampleInputEmail1", placeholder: props.email })), _react2.default.createElement("div", { className: "form-group" }, _react2.default.createElement("label", { "for": "exampleInputPassword1" }, "Password"), _react2.default.createElement("input", { onChange: props.changeHandler.bind(undefined), name: "password", type: "password", className: "form-control", id: "exampleInputPassword1", placeholder: props.email })), _react2.default.createElement("button", { onClick: props.clickedLogin.bind(undefined), type: "submit", className: "btn btn-default" }, "Submit"));
+	};
 
 /***/ }
 /******/ ]);

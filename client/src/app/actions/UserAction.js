@@ -1,7 +1,7 @@
-import { CLICKED_LOGIN } from "../constants/actionTypes";
+import { LOGIN_CLICKED } from "../constants/actionTypes";
 
-export function loginClicked(){
-    return { type : CLICKED_LOGIN };
+export function loginClicked(payload){
+    return { type : LOGIN_CLICKED , payload };
 }
 
 export function loginAttempted(){
