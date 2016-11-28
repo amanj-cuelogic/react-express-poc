@@ -4,10 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon lib/server.js --exec babel-node",
-    "build": "babel lib -d dist",
-    "serve": "node dist/server.js"
-  },
+    "start": "nodemon src/server.js --exec babel-node"
+   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -28,6 +26,7 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "cors": "^2.8.1",
+    "nconf": "^0.8.4",
     "sinon": "^1.17.6",
     "sinon-mongoose": "^1.3.0"
   }
