@@ -1,10 +1,10 @@
 {
-    "DB" : {
+    "db" : {
         "MONGODB_HOST" : "localhost",
         "MONGODB_PORT" : "27017",
         "MONGODB_COLLECTION_NAME" : "user_sample" 
     },
-    "APP" : {
+    "development" : {
         "PORT" : "3000"
     }
 }
