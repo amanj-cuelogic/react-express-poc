@@ -538,12 +538,12 @@
 	var _Root2 = _interopRequireDefault(_Root);
 	
 	function _interopRequireDefault(obj) {
-	  return obj && obj.__esModule ? obj : { default: obj };
+	  return obj && obj.__esModule ? obj : { "default": obj };
 	}
 	
 	var rootElement = window.document.getElementById("app");
 	
-	(0, _reactDom.render)(_react2.default.createElement(_Root2.default, null), rootElement);
+	(0, _reactDom.render)(_react2["default"].createElement(_Root2["default"], null), rootElement);
 
 /***/ },
 /* 3 */
@@ -22840,7 +22840,7 @@
 	var _SignInPage2 = _interopRequireDefault(_SignInPage);
 	
 	function _interopRequireDefault(obj) {
-	    return obj && obj.__esModule ? obj : { default: obj };
+	    return obj && obj.__esModule ? obj : { 'default': obj };
 	}
 	
 	function _classCallCheck(instance, Constructor) {
@@ -22860,25 +22860,12 @@
 	        throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
 	    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 	}
-	//import createHistory from 'history/createBrowserHistory'
 	
-	var logger = (0, _reduxLogger2.default)();
+	var logger = (0, _reduxLogger2['default'])();
 	
-	//const createStoreWithMiddleware = applyMiddleware(
-	//  thunk,
-	//  logger
-	//)(createStore);
+	var store = (0, _redux.createStore)(_RootReducer2['default'], {}, (0, _redux.applyMiddleware)(_reduxThunk2['default'], logger));
 	
-	//const initialState = {
-	//  isLoggedIn : false,
-	//  fetchingUserDetails : false,
-	//  userObject : null,
-	//  error : null
-	//};
-	
-	var store = (0, _redux.createStore)(_RootReducer2.default, {}, (0, _redux.applyMiddleware)(_reduxThunk2.default, logger));
-	
-	var routes = _react2.default.createElement(_reactRouter.Router, { history: _reactRouter.browserHistory }, _react2.default.createElement(_reactRouter.Route, { path: "/", component: _App2.default }, _react2.default.createElement(_reactRouter.Route, { path: 'signup', component: '' }), _react2.default.createElement(_reactRouter.Route, { path: "signin", component: _SignInPage2.default }), _react2.default.createElement(_reactRouter.Route, { path: 'user/:id', component: '' })));
+	var routes = _react2['default'].createElement(_reactRouter.Router, { history: _reactRouter.browserHistory }, _react2['default'].createElement(_reactRouter.Route, { path: "/", component: _App2['default'] }, _react2['default'].createElement(_reactRouter.Route, { path: 'signup', component: '' }), _react2['default'].createElement(_reactRouter.Route, { path: "signin", component: _SignInPage2['default'] }), _react2['default'].createElement(_reactRouter.Route, { path: 'user/:id', component: '' })));
 	
 	var Root = function (_React$Component) {
 	    _inherits(Root, _React$Component);
@@ -22891,15 +22878,19 @@
 	
 	    _createClass(Root, [{
 	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement(_reactRedux.Provider, { store: store, children: routes });
-	        }
+	        value: function () {
+	            function render() {
+	                return _react2['default'].createElement(_reactRedux.Provider, { store: store, children: routes });
+	            }
+	
+	            return render;
+	        }()
 	    }]);
 	
 	    return Root;
-	}(_react2.default.Component);
+	}(_react2['default'].Component);
 	
-	exports.default = Root;
+	exports['default'] = Root;
 	;
 
 /***/ },
@@ -23831,7 +23822,7 @@
 	   user: _LoginReducer.userInfo
 	});
 	
-	exports.default = RootReducer;
+	exports["default"] = RootReducer;
 
 /***/ },
 /* 194 */
@@ -24949,11 +24940,7 @@
 	    isLoggedIn: false,
 	    fetchingUserDetails: false,
 	    userObject: null,
-	    error: null,
-	    login_info: {
-	        email: "amanjuneja5@gmail.com",
-	        password: "1234567"
-	    }
+	    error: null
 	};
 	
 	function userInfo() {
@@ -24961,9 +24948,24 @@
 	    var action = arguments[1];
 	
 	    switch (action.type) {
+	        case _actionTypes.LOGIN_ATTEMPTED:
 	        case _actionTypes.LOGIN_CLICKED:
 	            return Object.assign({}, state, {
 	                fetchingUserDetails: true
+	            });
+	        case _actionTypes.AUTH_SUCCESS:
+	            return Object.assign({}, state, {
+	                isLoggedIn: true,
+	                fetchingUserDetails: false,
+	                userObject: action.payload,
+	                error: null
+	            });
+	
+	        case _actionTypes.AUTH_FAILED:
+	            return Object.assign({}, state, {
+	                fetchingUserDetails: false,
+	                error: action.payload,
+	                userObject: null
 	            });
 	        default:
 	            return state;
@@ -24983,6 +24985,9 @@
 	  value: true
 	});
 	var LOGIN_CLICKED = exports.LOGIN_CLICKED = 'LOGIN_CLICKED';
+	var AUTH_SUCCESS = exports.AUTH_SUCCESS = 'AUTH_SUCCESS';
+	var AUTH_FAILED = exports.AUTH_FAILED = 'AUTH_FAILED';
+	var LOGIN_ATTEMPTED = exports.LOGIN_ATTEMPTED = 'LOGIN_ATTEMPTED';
 
 /***/ },
 /* 217 */
@@ -31243,7 +31248,7 @@
 	var _Navbar2 = _interopRequireDefault(_Navbar);
 	
 	function _interopRequireDefault(obj) {
-	    return obj && obj.__esModule ? obj : { default: obj };
+	    return obj && obj.__esModule ? obj : { "default": obj };
 	}
 	
 	function _classCallCheck(instance, Constructor) {
@@ -31275,15 +31280,19 @@
 	
 	    _createClass(App, [{
 	        key: "render",
-	        value: function render() {
-	            return _react2.default.createElement("div", null, _react2.default.createElement(_Navbar2.default, null), this.props.children);
-	        }
+	        value: function () {
+	            function render() {
+	                return _react2["default"].createElement("div", null, _react2["default"].createElement(_Navbar2["default"], null), this.props.children);
+	            }
+	
+	            return render;
+	        }()
 	    }]);
 	
 	    return App;
-	}(_react2.default.Component);
+	}(_react2["default"].Component);
 	
-	exports.default = App;
+	exports["default"] = App;
 
 /***/ },
 /* 293 */
@@ -31317,7 +31326,7 @@
 	var _reactDom = __webpack_require__(/*! react-dom */ 34);
 	
 	function _interopRequireDefault(obj) {
-	    return obj && obj.__esModule ? obj : { default: obj };
+	    return obj && obj.__esModule ? obj : { "default": obj };
 	}
 	
 	function _classCallCheck(instance, Constructor) {
@@ -31349,15 +31358,19 @@
 	
 	    _createClass(Navbar, [{
 	        key: "render",
-	        value: function render() {
-	            return _react2.default.createElement("nav", { className: "navbar navbar-default" }, _react2.default.createElement("div", { className: "container" }, _react2.default.createElement("div", { className: "navbar-header" }, _react2.default.createElement("ul", { className: "nav navbar-nav" }, _react2.default.createElement("li", null, _react2.default.createElement("a", { href: "/" }, "Home")), _react2.default.createElement("li", null, _react2.default.createElement("a", { href: "/signin" }, "Login")), _react2.default.createElement("li", null, _react2.default.createElement("a", { href: "/signout" }, "Logout")), _react2.default.createElement("li", null, _react2.default.createElement("a", { href: "#" }, "Profile")), _react2.default.createElement("li", null, _react2.default.createElement("a", { href: "#" }, "About"))))));
-	        }
+	        value: function () {
+	            function render() {
+	                return _react2["default"].createElement("nav", { className: "navbar navbar-default" }, _react2["default"].createElement("div", { className: "container" }, _react2["default"].createElement("div", { className: "navbar-header" }, _react2["default"].createElement("ul", { className: "nav navbar-nav" }, _react2["default"].createElement("li", null, _react2["default"].createElement("a", { href: "/" }, "Home")), _react2["default"].createElement("li", null, _react2["default"].createElement("a", { href: "/signin" }, "Login")), _react2["default"].createElement("li", null, _react2["default"].createElement("a", { href: "/signout" }, "Logout")), _react2["default"].createElement("li", null, _react2["default"].createElement("a", { href: "#" }, "Profile")), _react2["default"].createElement("li", null, _react2["default"].createElement("a", { href: "#" }, "About"))))));
+	            }
+	
+	            return render;
+	        }()
 	    }]);
 	
 	    return Navbar;
-	}(_react2.default.Component);
+	}(_react2["default"].Component);
 	
-	exports.default = Navbar;
+	exports["default"] = Navbar;
 
 /***/ },
 /* 294 */
@@ -31392,12 +31405,14 @@
 	
 	var _reactRedux = __webpack_require__(/*! react-redux */ 217);
 	
+	var _reactRouter = __webpack_require__(/*! react-router */ 236);
+	
 	var _SignInForm = __webpack_require__(/*! ../components/user/SignInForm */ 295);
 	
 	var _UserAction = __webpack_require__(/*! ../actions/UserAction.js */ 296);
 	
 	function _interopRequireDefault(obj) {
-	    return obj && obj.__esModule ? obj : { default: obj };
+	    return obj && obj.__esModule ? obj : { "default": obj };
 	}
 	
 	function _classCallCheck(instance, Constructor) {
@@ -31426,50 +31441,66 @@
 	
 	        var _this = _possibleConstructorReturn(this, (SignInPage.__proto__ || Object.getPrototypeOf(SignInPage)).call(this));
 	
+	        _this.onLoginClicked = function () {
+	            if (_this.state.email && _this.state.password) {
+	                _this.props.userLogin(_this.state);
+	            }
+	        };
+	
+	        _this.onChangeHandle = function (event) {
+	            var obj = {};
+	            obj[event.target.name] = event.target.value;
+	            _this.setState(obj);
+	        };
+	
 	        _this.state = {
-	            email: '',
-	            password: ''
+	            email: "",
+	            password: ""
 	        };
 	        return _this;
 	    }
 	
 	    _createClass(SignInPage, [{
-	        key: "handleChange",
-	        value: function handleChange(event) {
-	
-	            this.setState({
-	                email: event.target.value
-	            });
-	        }
-	    }, {
 	        key: "render",
-	        value: function render() {
-	            var _this2 = this;
+	        value: function () {
+	            function render() {
+	                return _react2["default"].createElement("div", { className: "container" }, _react2["default"].createElement(_SignInForm.SignInForm, { changeHandler: this.onChangeHandle, clickedLogin: this.onLoginClicked }));
+	            }
 	
-	            return _react2.default.createElement("div", { className: "container" }, _react2.default.createElement(_SignInForm.SignInForm, { changeHandler: this.handleChange.bind(this), clickedLogin: function clickedLogin() {
-	                    return _this2.props.userLogin("ama");
-	                } }));
-	        }
+	            return render;
+	        }()
 	    }]);
 	
 	    return SignInPage;
-	}(_react2.default.Component);
+	}(_react2["default"].Component);
 	
-	var mapStateToProps = function mapStateToProps(state) {
-	    return {
-	        user: state.user
-	    };
-	};
+	var mapStateToProps = function () {
+	    function mapStateToProps(state) {
+	        return {
+	            user: state.user
+	        };
+	    }
 	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	    return {
-	        userLogin: function userLogin(email) {
-	            dispatch((0, _UserAction.loginClicked)(email));
-	        }
-	    };
-	};
+	    return mapStateToProps;
+	}();
 	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SignInPage);
+	var mapDispatchToProps = function () {
+	    function mapDispatchToProps(dispatch) {
+	        return {
+	            userLogin: function () {
+	                function userLogin(email) {
+	                    dispatch((0, _UserAction.loginClicked)(email));
+	                }
+	
+	                return userLogin;
+	            }()
+	        };
+	    }
+	
+	    return mapDispatchToProps;
+	}();
+	
+	exports["default"] = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SignInPage);
 
 /***/ },
 /* 295 */
@@ -31492,11 +31523,20 @@
 	var _reactDom = __webpack_require__(/*! react-dom */ 34);
 	
 	function _interopRequireDefault(obj) {
-	  return obj && obj.__esModule ? obj : { default: obj };
+	  return obj && obj.__esModule ? obj : { "default": obj };
 	}
 	
-	var SignInForm = exports.SignInForm = function SignInForm(props) {
-	  return _react2.default.createElement("form", { action: "#" }, _react2.default.createElement("div", { className: "form-group" }, _react2.default.createElement("label", { "for": "exampleInputEmail1" }, "Email address"), _react2.default.createElement("input", { onChange: props.changeHandler.bind(undefined), type: "email", name: "email", className: "form-control", id: "exampleInputEmail1", placeholder: props.email })), _react2.default.createElement("div", { className: "form-group" }, _react2.default.createElement("label", { "for": "exampleInputPassword1" }, "Password"), _react2.default.createElement("input", { onChange: props.changeHandler.bind(undefined), name: "password", type: "password", className: "form-control", id: "exampleInputPassword1", placeholder: props.email })), _react2.default.createElement("button", { onClick: props.clickedLogin.bind(undefined), type: "submit", className: "btn btn-default" }, "Submit"));
+	var SignInForm = exports.SignInForm = function () {
+	  function SignInForm(props) {
+	    return _react2["default"].createElement("div", null, _react2["default"].createElement("div", { className: "form-group" }, _react2["default"].createElement("label", { htmlFor: "exampleInputEmail1" }, "Email address"), _react2["default"].createElement("input", { onChange: props.changeHandler, type: "email", name: "email", className: "form-control", id: "exampleInputEmail1", placeholder: "Email" })), _react2["default"].createElement("div", { className: "form-group" }, _react2["default"].createElement("label", { htmlFor: "exampleInputPassword1" }, "Password"), _react2["default"].createElement("input", { onChange: props.changeHandler, name: "password", type: "password", className: "form-control", id: "exampleInputPassword1", placeholder: "Password" })), _react2["default"].createElement("button", { onClick: props.clickedLogin, type: "submit", className: "btn btn-default" }, "Submit"));
+	  }
+	
+	  return SignInForm;
+	}();
+	
+	SignInForm.propTypes = {
+	  changeHandler: PropTypes.func,
+	  clickedLogin: PropTypes.func
 	};
 
 /***/ },
@@ -31520,21 +31560,38 @@
 	
 	function loginClicked(payload) {
 	    return function (dispatch) {
+	
+	        dispatch({
+	            type: _actionTypes.LOGIN_ATTEMPTED
+	        });
+	
 	        fetch("http://localhost:3000/api/signin", {
 	            method: "POST",
 	            headers: {
 	                'Content-Type': 'application/json'
 	            },
-	            payload: JSON.stringify({
-	                email: "amanjuneja5@gmail.com",
-	                password: "123456"
+	            body: JSON.stringify({
+	                "email": payload.email,
+	                "password": payload.password
 	            })
 	        }).then(function (response) {
-	            console.log(response);
+	            response.json().then(function (data) {
+	                if (data.status === true) {
+	                    dispatch({
+	                        type: _actionTypes.AUTH_SUCCESS,
+	                        payload: data.user
+	                    });
+	                } else {
+	                    dispatch({
+	                        type: _actionTypes.AUTH_FAILED,
+	                        payload: data.user
+	                    });
+	                }
+	            });
 	        });
 	    };
 	
-	    //return { type : LOGIN_CLICKED , payload };
+	    //
 	}
 	
 	function loginAttempted() {}

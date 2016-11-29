@@ -7,7 +7,7 @@ import { SignInForm } from "../components/user/SignInForm";
 
 import { loginClicked } from "../actions/UserAction.js";
 
-class SignInPage extends React.Component {
+export class SignInPage extends React.Component {
     constructor(){
         super();
         this.state = {
@@ -16,24 +16,22 @@ class SignInPage extends React.Component {
         }
     }
     
-    onLoginClicked(){
+    onLoginClicked = () => {
         if (this.state.email && this.state.password) {
             this.props.userLogin(this.state);
         }
-        
     }
     
-    onChangeHandle(field,event){
+    onChangeHandle = (event) => {
         var obj = {};
-        obj[field] = event.target.value;
+        obj[event.target.name] = event.target.value;
         this.setState(obj);
-        
     }
     
     render(){
         return (
             <div className="container">
-                <SignInForm changeHandler={this.onChangeHandle.bind(this)} clickedLogin = {this.onLoginClicked.bind(this)} />
+                <SignInForm changeHandler={this.onChangeHandle} clickedLogin = {this.onLoginClicked} />
             </div>    
         );
     }
