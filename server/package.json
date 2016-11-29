@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/server.js --exec babel-node"
-   },
+    "start": "nodemon src/server.js --exec babel-node",
+    "test": "mocha --compilers js:babel-core/register 'test/**/*.js'"
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
