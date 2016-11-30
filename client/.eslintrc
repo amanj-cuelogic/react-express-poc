@@ -1,0 +1,20 @@
+{
+  "parser": "babel-eslint",
+  "ecmaFeatures" : {
+      "jsx" : true,
+      "modules" : true
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "plugins" : [
+      "react"
+  ],
+  "rules": {
+    "quotes": [2, "double"],
+    "eol-last": [0],
+    "no-mixed-requires": [2],
+    "no-underscore-dangle": [0]
+  }
+}

@@ -7,32 +7,39 @@ import { Provider } from 'react-redux';
 
 import React, { Component } from "react";
 import { render } from "react-dom";
-import { Router, Route, Link,browserHistory} from "react-router";
+import { Router, Route, Link, browserHistory } from "react-router";
+import Immutable from "immutable";
 
 import App from "./App";
 import SignInPage from "./SignInPage";
 
 const logger = createLogger();
+const initialState = Immutable.Map({
+    isLoggedIn: false,
+    fetchingUserDetails: false,
+    userObject: null,
+    error: null,
+});
 
 const store = createStore(
-                          RootReducer,
-                          {},
-                          applyMiddleware(thunk,logger)
-                          );
+    RootReducer,
+    window.initialState,
+    applyMiddleware(thunk, logger)
+);
 
 
 var routes = (
-    <Router history = {browserHistory}>
+    <Router history={browserHistory}>
         <Route path={"/"} component={App}>
-            <Route path="signup" component=""/>
-            <Route path={"signin"} component={SignInPage}/>
-            <Route path="user/:id" component=""/>
+            <Route path="signup" component="" />
+            <Route path={"signin"} component={SignInPage} />
+            <Route path="user/:id" component="" />
         </Route>
     </Router>
 );
 
 export default class Root extends React.Component {
-    render(){
+    render() {
         return (
             <Provider store={store} children={routes}>
             </Provider>

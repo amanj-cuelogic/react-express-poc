@@ -5,11 +5,11 @@ import userController from "../controllers/UserController";
  */
 export default (app) => {
 
-    app.post('/api/signin', userController.postLogin);
+    app.post("/api/signin", userController.postLogin);
 
-    app.post('/api/signup', userController.postSignup);
+    app.post("/api/signup", userController.postSignup);
 
-    app.get('/api/user/:email', userController.getUserInfo);
+    app.get("/api/user/:email", userController.getUserInfo);
 
-    app.post('/api/user', userController.postUserInfo);
+    app.post("/api/user", userController.postUserInfo);
 };

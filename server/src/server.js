@@ -13,20 +13,20 @@ nconf.argv()
   .env()
   .file({ file: path.resolve("./config.json") });
 
-const ENV = app.get('env');
+const ENV = app.get("env");
 const ENV_VARS = nconf.get(ENV);
 const DB = nconf.get("db");
 
 // Initializing the app middlewares
-app.use(bodyParser.urlencoded({ 'extended': true }));
+app.use(bodyParser.urlencoded({ "extended": true }));
 app.use(bodyParser.json());
 app.use(cors());
 
 // Call to DB connection function. Forward to app intiation after connection.
 connect()
-  .on('error', console.log)
-  .on('disconnected', connect)
-  .once('open', listen);
+  .on("error", console.log)
+  .on("disconnected", connect)
+  .once("open", listen);
 
 // Function to start app on the provided port
 function listen() {
