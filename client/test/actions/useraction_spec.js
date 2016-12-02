@@ -62,7 +62,6 @@ describe("User Action", () => {
         const store = mockStore({});
         store.dispatch(actionCreators.loginClicked(payload))
             .then(() => {
-                console.log(store.getActions());
                 expect(store.getActions()).to.be.equal(expectedActions);
                 done();    
             })

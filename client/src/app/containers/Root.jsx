@@ -1,15 +1,13 @@
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
-import RootReducer from "../reducers/RootReducer";
-
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-
 import React, { Component } from "react";
 import { render } from "react-dom";
-import { Router, Route, Link, browserHistory } from "react-router";
+import { Router, Route, browserHistory } from "react-router";
 import Immutable from "immutable";
 
+import RootReducer from "../reducers/RootReducer";
 import App from "./App";
 import SignInPage from "./SignInPage";
 
