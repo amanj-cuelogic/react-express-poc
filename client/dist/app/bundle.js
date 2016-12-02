@@ -48,7 +48,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(/*! whatwg-fetch */1);
-	module.exports = __webpack_require__(/*! /var/www/html/react-express-poc/client/src/app/index.js */2);
+	module.exports = __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/react-express-poc/client/src/app/index.js */2);
 
 
 /***/ },
@@ -23887,15 +23887,15 @@
   \******************************************/
 /***/ function(module, exports) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var LOGIN_CLICKED = exports.LOGIN_CLICKED = 'LOGIN_CLICKED';
-	var AUTH_SUCCESS = exports.AUTH_SUCCESS = 'AUTH_SUCCESS';
-	var AUTH_FAILED = exports.AUTH_FAILED = 'AUTH_FAILED';
-	var LOGIN_ATTEMPTED = exports.LOGIN_ATTEMPTED = 'LOGIN_ATTEMPTED';
+	var LOGIN_CLICKED = exports.LOGIN_CLICKED = "LOGIN_CLICKED";
+	var AUTH_SUCCESS = exports.AUTH_SUCCESS = "AUTH_SUCCESS";
+	var AUTH_FAILED = exports.AUTH_FAILED = "AUTH_FAILED";
+	var LOGIN_ATTEMPTED = exports.LOGIN_ATTEMPTED = "LOGIN_ATTEMPTED";
 
 /***/ },
 /* 196 */
@@ -36758,7 +36758,13 @@
 	
 	var Config = _interopRequireWildcard(_Config);
 	
-	__webpack_require__(/*! whatwg-fetch */ 1);
+	var _isomorphicFetch = __webpack_require__(/*! isomorphic-fetch */ 305);
+	
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+	
+	function _interopRequireDefault(obj) {
+	    return obj && obj.__esModule ? obj : { "default": obj };
+	}
 	
 	function _interopRequireWildcard(obj) {
 	    if (obj && obj.__esModule) {
@@ -36774,26 +36780,16 @@
 	
 	var loginClicked = exports.loginClicked = function () {
 	    function loginClicked(payload) {
-	        return dispatch = function (_dispatch) {
-	            function dispatch() {
-	                return _dispatch.apply(this, arguments);
-	            }
-	
-	            dispatch.toString = function () {
-	                return _dispatch.toString();
-	            };
-	
-	            return dispatch;
-	        }(function () {
+	        return function (dispatch, getState) {
 	
 	            dispatch({
 	                type: actionTypes.LOGIN_ATTEMPTED
 	            });
 	
-	            fetch(Config.apiUrl + "/signin", {
+	            (0, _isomorphicFetch2["default"])(Config.apiUrl + "/signin", {
 	                method: "POST",
 	                headers: {
-	                    'Content-Type': 'application/json'
+	                    "Content-Type": "application/json"
 	                },
 	                body: JSON.stringify({
 	                    "email": payload.email,
@@ -36814,7 +36810,7 @@
 	                    }
 	                });
 	            });
-	        });
+	        };
 	    }
 	
 	    return loginClicked;
@@ -36828,6 +36824,21 @@
 /***/ function(module, exports) {
 
 	module.exports = {"apiUrl":"http://localhost:3000/api"};
+
+/***/ },
+/* 305 */
+/*!****************************************************!*\
+  !*** ./~/isomorphic-fetch/fetch-npm-browserify.js ***!
+  \****************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// the whatwg-fetch polyfill installs the fetch() function
+	// on the global object (window or self)
+	//
+	// Return that as the export for use in Webpack, Browserify etc.
+	__webpack_require__(/*! whatwg-fetch */ 1);
+	module.exports = self.fetch.bind(self);
+
 
 /***/ }
 /******/ ]);

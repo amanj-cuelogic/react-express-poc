@@ -1,15 +1,15 @@
 import * as actionTypes from "../constants/actionTypes";
 import * as Config from "Config";
-import "whatwg-fetch";
+import "isomorphic-fetch";
 
 export const loginClicked = (payload) => {
-    return dispatch =>  {
+    return dispatch => {
 
         dispatch({
             type: actionTypes.LOGIN_ATTEMPTED
         });
 
-        fetch(
+        return fetch(
             Config.apiUrl + "/signin",
             {
                 method: "POST",
@@ -20,8 +20,8 @@ export const loginClicked = (payload) => {
                     "email": payload.email,
                     "password": payload.password
                 })
-            }).then(function (response) {
-                response.json().then(function (data) {
+            }).then((response) => {
+                response.json().then((data) => {
                     if (data.status === true) {
                         dispatch({
                             type: actionTypes.AUTH_SUCCESS,
